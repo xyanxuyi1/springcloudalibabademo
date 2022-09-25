@@ -22,7 +22,7 @@ public class OrderController {
     @RequestMapping("/add")
     public String add() {
         System.out.print("下单成功");
-        String forObject = restTemplate.getForObject("http://localhost:8011/stock/reduct", String.class);
+        String forObject = restTemplate.getForObject("http://stock-service/stock/reduct", String.class);
         return "hello world:"+ forObject;
     }
 }
