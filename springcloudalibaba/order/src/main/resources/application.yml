@@ -15,3 +15,9 @@ stock-service:
   ribbon:
 #    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
     NFLoadBalancerRuleClassName: com.ribbon.rule.CustomRule
+ribbon:
+  eager-load:
+    #开启ribbon饥饿加载
+    enabled: true
+    #配置mall-user使用ribbon饥饿加载，多个使用逗号分割
+    clients: stock-service
