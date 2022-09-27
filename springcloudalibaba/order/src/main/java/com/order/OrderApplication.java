@@ -18,9 +18,9 @@ import org.springframework.web.client.RestTemplate;
  * @Version 1.0
  */
 @SpringBootApplication
-@RibbonClients(value = {
-        @RibbonClient(name = "stock-service", configuration = RibbonRandomRuleConfig.class)
-})
+//@RibbonClients(value = {
+//        @RibbonClient(name = "stock-service", configuration = RibbonRandomRuleConfig.class)
+//})
 public class OrderApplication {
 
     public static void main(String[] args) {
