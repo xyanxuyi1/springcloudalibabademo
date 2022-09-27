@@ -21,7 +21,7 @@ public class OrderController {
 
     @RequestMapping("/add")
     public String add() {
-        System.out.print("下单成功");
+        System.out.println("下单成功");
         String forObject = restTemplate.getForObject("http://stock-service/stock/reduct", String.class);
         return "hello world:"+ forObject;
     }

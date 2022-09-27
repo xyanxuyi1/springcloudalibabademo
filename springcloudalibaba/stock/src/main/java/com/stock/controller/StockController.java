@@ -21,7 +21,7 @@ public class StockController {
 
     @RequestMapping("/reduct")
     public String reduct() {
-        System.out.printf("扣减库存:"+port);
+        System.out.println("扣减库存:"+port);
         return "扣减库存"+port;
     }
 }
