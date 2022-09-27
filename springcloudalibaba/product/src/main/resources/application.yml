@@ -1,9 +1,9 @@
 server:
-  port: 8010
+  port: 8030
 #应用名称 nacos会将该名称当做服务名称
 spring:
   application:
-    name: order-service
+    name: prodcut-service
   cloud:
     nacos:
         server-addr: localhost:8848
@@ -14,14 +14,3 @@ spring:
     loadbalancer:
       ribbon:
         enabled : false
-#springboot默认日志级别是info fegin的debug日志级别就不会输入
-logging:
-  level:
-    com.order.fegin: debug
-
-# fegin日志局部配置
-feign:
-  client:
-    config:
-      product-service:
-        logger-level: BASIC

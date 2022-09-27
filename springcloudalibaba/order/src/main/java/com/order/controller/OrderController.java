@@ -1,5 +1,6 @@
 package com.order.controller;
 
+import com.order.fegin.ProductFeginService;
 import com.order.fegin.StockFeginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,15 @@ public class OrderController {
     @Autowired
     private StockFeginService stockFeginService;
 
+    @Autowired
+    private ProductFeginService productFeginService;
+
 
     @RequestMapping("/add")
     public String add() {
         System.out.println("下单成功");
-        String msg = stockFeginService.reduct();
-        return "hello fegin:"+ msg;
+        String s = stockFeginService.reduct();
+        String p = productFeginService.get(1);
+        return "hello fegin:"+ s+p;
     }
 }
