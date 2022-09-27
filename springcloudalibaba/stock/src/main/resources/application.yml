@@ -6,7 +6,7 @@ spring:
     name: stock-service
   cloud:
     nacos:
-      server-addr: localhost:8847
+      server-addr: localhost:8848
       discovery:
         username: nacos
         password: nacos
