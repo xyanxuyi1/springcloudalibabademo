@@ -1,6 +1,25 @@
 spring:
   application:
-    name: config-nacos
+    name: com.order.redis
   cloud:
     nacos:
       server-addr: localhost:8848
+
+      #一但修改成非properties，则必须通过file-extention设置
+      config:
+        file-extension: yaml
+        namespace: dev
+        group: xyanxuyi
+        shared-configs:
+          - data-id: com.order.common_properties #【1】
+            refresh: true
+            #grouop : 默认是defult group
+          - data-id: com.order.common2_properties #【2】
+            refresh: true
+            #grouop : 默认是defult group
+        extension-configs[0]:
+          data-id: com.order.common3_properties
+          refresh: true
+
+# 配置文件的优先级 优先级大的会覆盖优先级小的
+# profile > 默认配置文件 > extension-configs>shard-configs（下标越大 优先级越大）

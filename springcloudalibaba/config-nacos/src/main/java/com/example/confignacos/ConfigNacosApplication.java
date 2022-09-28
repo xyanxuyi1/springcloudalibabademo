@@ -14,7 +14,8 @@ public class ConfigNacosApplication {
         for (;;) {
             String username = run.getEnvironment().getProperty("user.name");
             String userage = run.getEnvironment().getProperty("user.age");
-            System.out.println("user name: " + username + ": user age: " + userage);
+            String config = run.getEnvironment().getProperty("user.config");
+            System.out.println("user name: " + username + ": user age: " + userage + ": config: " +config);
             TimeUnit.SECONDS.sleep(1);
         }
     }
