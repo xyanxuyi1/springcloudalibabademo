@@ -19,9 +19,12 @@ logging:
   level:
     com.order.fegin: debug
 
-# fegin日志局部配置
+# fegin超时时间配置
 feign:
   client:
     config:
-      product-service:
-        logger-level: BASIC
+      default:
+        logger-level: full
+        connect-timeout: 3000
+        read-timeout: 3000
+
