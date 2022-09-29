@@ -1,0 +1,19 @@
+server:
+  port: 8070
+#应用名称 nacos会将该名称当做服务名称
+spring:
+  application:
+    name: order-service-sentinel
+  cloud:
+    nacos:
+        server-addr: localhost:8848
+        discovery:
+          username: nacos
+          password: nacos
+          namespace: public
+    loadbalancer:
+      ribbon:
+        enabled : false
+feign:
+  sentinel:
+    enabled: true
