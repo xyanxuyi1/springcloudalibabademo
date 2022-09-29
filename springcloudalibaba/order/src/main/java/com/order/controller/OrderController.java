@@ -2,6 +2,8 @@ package com.order.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.order.controller.service.OrderService;
+import com.order.domain.User;
 import com.order.fegin.ProductFeginService;
 import com.order.fegin.StockFeginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class OrderController {
 
     @Autowired
     private ProductFeginService productFeginService;
+
+    @Autowired
+    private OrderService orderService;
 
 
     @RequestMapping("/add")
@@ -69,5 +74,15 @@ public class OrderController {
     @RequestMapping("/getOrder")
     public String getOrder() {
         return "查询订单";
+    }
+
+    @RequestMapping("/test1")
+    public User test1() {
+        return orderService.getUser();
+    }
+
+    @RequestMapping("/test2")
+    public User test2() {
+        return orderService.getUser();
     }
 }
