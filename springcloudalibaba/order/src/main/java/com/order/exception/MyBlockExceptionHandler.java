@@ -28,7 +28,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @Version 1.0
  */
 @Component
-
 public class MyBlockExceptionHandler implements BlockExceptionHandler {
 
     Logger log = LoggerFactory.getLogger(MyBlockExceptionHandler.class);

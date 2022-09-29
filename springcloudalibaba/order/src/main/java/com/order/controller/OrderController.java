@@ -2,16 +2,17 @@ package com.order.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.nacos.shaded.com.google.gson.JsonObject;
 import com.order.controller.service.OrderService;
+import com.order.domain.Result;
 import com.order.domain.User;
 import com.order.fegin.ProductFeginService;
 import com.order.fegin.StockFeginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,7 +41,7 @@ public class OrderController {
         System.out.println("下单成功");
         String s = stockFeginService.reduct();
         String p = productFeginService.get(1);
-        return "hello fegin:"+ s+p;
+        return "hello fegin:" + s + p;
     }
 
     @RequestMapping("/sentinel")
@@ -59,8 +60,8 @@ public class OrderController {
     }
 
     @RequestMapping("/flowTread")
-    @SentinelResource(value = "flowTread" , blockHandler = "flowBlockHandler")
-    public String flowTread() throws InterruptedException{
+    @SentinelResource(value = "flowTread", blockHandler = "flowBlockHandler")
+    public String flowTread() throws InterruptedException {
         TimeUnit.SECONDS.sleep(5);
         return "hello flow";
     }
@@ -85,4 +86,16 @@ public class OrderController {
     public User test2() {
         return orderService.getUser();
     }
+
+    @RequestMapping("/err")
+    @SentinelResource(value ="err", blockHandler = "errBlockHandler")
+    public String err() {
+        int i = 1 / 0;
+        return "hello";
+    }
+
+    public String errBlockHandler(BlockException e) {
+        return "服务降级了";
+    }
+
 }
