@@ -1,11 +1,14 @@
 package com.example.sentinel_demo.controller;
 
 import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.EntryType;
 import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.example.sentinel_demo.pojo.User;
@@ -62,11 +65,8 @@ public class HelloController {
     }
 
     /**
-     * 类描述：
-     *
      * @ClassName HelloController
-     * @Description 定义规则
-     * spring 的初始化方法
+     * @Description 定义流控规则
      * @Author xuge
      * @Date 2022/9/28 18:02
      * @Version 1.0
@@ -97,6 +97,57 @@ public class HelloController {
 
         //加载配置好的规则
         FlowRuleManager.loadRules(rules);
+    }
+
+    /*
+     * @description: 定义sentinel降级规则
+     * @author: xuge
+     * @date: 2022/9/29 10:59
+     **/
+    @PostConstruct
+    private static void initDegradeRule() {
+        //流控规则
+        List<DegradeRule> rules = new ArrayList<>();
+        //流控
+        DegradeRule rule = new DegradeRule();
+        //设置要保护的资源
+        rule.setResource(DEGRADE_RESOURCE_NAME);
+        //设置降级规则策略
+        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
+        //设置异常数
+        //触发熔断异常数 2
+        rule.setCount(2);
+        //触发熔断最小请求数
+        rule.setMinRequestAmount(2);
+        //统计时长 1分钟
+        rule.setStatIntervalMs(60*1000);
+
+        //一分钟内：执行了2次，出现了2次异常，就回触发熔断
+
+        //熔断持续时长： 单位s
+        //一旦触发熔断  再次请求对应的接口，就会直接调用降级方法
+        //10秒过了之后 --半开状态：恢复接口的调用，但是如果第一次请求就异常，就回再次熔断，不会根据设置的条件判定
+        rule.setTimeWindow(10);
+
+        rules.add(rule);
+
+        //加载配置好的降级规则
+        DegradeRuleManager.loadRules(rules);
+    }
+
+    @RequestMapping("/degrade")
+    @SentinelResource(value = DEGRADE_RESOURCE_NAME, entryType = EntryType.IN, blockHandler = "blockHandlerForFb")
+    public User degrade(String id) throws InterruptedException {
+        throw new RuntimeException("异常");
+    }
+
+    /*
+     * @description: 熔断后调用方法
+     * @author: xuge
+     * @date: 2022/9/29 11:45
+     **/
+    public User blockHandlerForFb(String id, BlockException ex) {
+        return new User("降级");
     }
 
     /**
