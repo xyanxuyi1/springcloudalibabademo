@@ -5,18 +5,22 @@ spring:
   application:
     name: order-service-sentinel
   cloud:
-    nacos:
-        server-addr: localhost:8848
-        discovery:
-          username: nacos
-          password: nacos
-          namespace: public
     loadbalancer:
       ribbon:
         enabled : false
     sentinel:
       transport:
         dashboard: 127.0.0.1:8080
+      web-context-unify: false
+      datasource:
+        flow-rule: #可以自定义
+          nacos:
+            server-addr: localhost:8848
+            username: nacos
+            password: nacos
+            data-id: order-service-sentinel-flow-rule
+            rule-type: flow
+
 feign:
   sentinel:
     enabled: true

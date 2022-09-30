@@ -39,13 +39,17 @@ public class OrderOpenFeginSentinelController {
     @RequestMapping("/get/{id}")
     @SentinelResource(value = "getById", blockHandler = "HotBlockHandler")
     public String getById(@PathVariable("id") Integer id) throws InterruptedException {
-        System.out.println("正常访问");
         return "正常访问";
     }
 
 
     public String HotBlockHandler(@PathVariable("id") Integer id, BlockException e) throws InterruptedException {
         return "热点异常处理";
+    }
+
+    @RequestMapping("/flow")
+    public String flow() {
+        return "下单成功: ";
     }
 
 }
